@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageSourcePropType } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -30,7 +30,7 @@ import ArrowLeftIcon from '../../components/icons/ArrowLeftIcon';
 
 
 interface AvatarItemProps {
-  imageUri: string;
+  source: ImageSourcePropType;
   balance: number;
   direction: 'left' | 'right';
   isLightBadge?: boolean;
@@ -41,7 +41,7 @@ interface AvatarItemProps {
 }
 
 function AvatarItem({
-  imageUri,
+  source,
   balance,
   direction,
   isLightBadge,
@@ -260,7 +260,7 @@ function AvatarItem({
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.mainAvatarContainer, animatedContainerStyle]}>
           <Animated.Image
-            source={{ uri: imageUri }}
+            source={source}
             style={animatedImageStyle}
           />
         </Animated.View>
@@ -303,7 +303,7 @@ export default function Test2() {
       <View style={styles.gridOverlay} pointerEvents="none" />
       <View style={styles.row}>
         <AvatarItem
-          imageUri="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+          source={require('../../assets/images/woman.jpeg')} 
           balance={leftBalance}
           direction="right"
           isActive={activeSide === 'left'}
@@ -312,7 +312,7 @@ export default function Test2() {
           onTransferComplete={(amount) => handleTransfer('left', amount)}
         />
         <AvatarItem
-          imageUri="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80"
+          source={require('../../assets/images/man.jpeg')}     
           balance={rightBalance}
           direction="left"
           isLightBadge={true}

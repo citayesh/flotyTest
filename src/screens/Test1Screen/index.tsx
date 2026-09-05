@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions, ImageSourcePropType } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -10,7 +10,7 @@ import Animated, {
   useDerivedValue,
   SharedValue,
 } from 'react-native-reanimated';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 import { styles } from './styles';
 
@@ -24,22 +24,21 @@ import DownloadIcon from '../../components/icons/DownloadIcon';
 
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
-const CENTER_IMAGES: string[] = [
-  'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=300&q=80',
+const CENTER_IMAGES: ImageSourcePropType[] = [
+  require('../../assets/images/1.jpeg'),
+  require('../../assets/images/2.jpeg'),
+  require('../../assets/images/3.jpeg'),
+  require('../../assets/images/4.jpeg'),
+  require('../../assets/images/5.jpeg'),
 ];
 
 interface CircularImageItemProps {
-  uri: string;
+  source: ImageSourcePropType;
   index: number;
   expandedIndex: SharedValue<number | null>;
 }
 
-const CircularImageItem: React.FC<CircularImageItemProps> = ({ uri, index, expandedIndex }) => {
+const CircularImageItem: React.FC<CircularImageItemProps> = ({ source, index, expandedIndex }) => {
   const progress = useSharedValue<number>(0);
   const translateY = useSharedValue<number>(SCREEN_HEIGHT); 
 
@@ -77,7 +76,7 @@ const CircularImageItem: React.FC<CircularImageItemProps> = ({ uri, index, expan
   return (
     <GestureDetector gesture={circleGesture}>
       <Animated.View style={[styles.circularImageWrapper, animatedStyle]}>
-        <Image source={{ uri }} style={styles.imageCover} resizeMode="cover" />
+        <Image source={source} style={styles.imageCover} resizeMode="cover" />
       </Animated.View>
     </GestureDetector>
   );
@@ -150,14 +149,14 @@ export default function Test1() {
 
         <View style={styles.centerColumn}>
           {CENTER_IMAGES.map((uri, index) => (
-            <CircularImageItem key={index} uri={uri} index={index} expandedIndex={expandedIndex} />
+            <CircularImageItem key={index} source={uri} index={index} expandedIndex={expandedIndex} />
           ))}
         </View>
 
         <Animated.View style={[styles.rightTopPill, animatedPillStyle]}>
           <Animated.View style={[styles.pillAvatarContainer, animatedPillContentStyle]}>
             <Image 
-              source={{ uri: 'https://us.123rf.com/450wm/lytasepta/lytasepta2212/lytasepta221200018/195899188-silhouette-profile-image-of-female-avatar-for-social-networks-fashion-and-beauty-black-white.jpg' }} 
+              source={require('../../assets/images/avatar.jpeg')}
               style={styles.pillAvatar} 
             />
           </Animated.View>
